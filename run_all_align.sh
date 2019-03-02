@@ -23,7 +23,7 @@ false && for lang in deen enfr roen; do
   done
 done
 
-for lang in ende fren enro; do
+false && for lang in ende fren enro; do
   lang2=$(echo $lang | sed 's/./& /g' | awk '{print $3, $4, $1, $2}' | sed "s= ==g")
   echo Processing $lang
   mkdir -p all_align/$lang
@@ -41,5 +41,11 @@ for lang in ende fren enro; do
     ../fast_align/build/atools -c invert -i all_align/$lang/$i.align.backward > all_align/$lang/$i.align.backward2
     python3 combine_bidirectional_alignments.py --method grow-diagonal-final all_align/$lang/$i.align.forward all_align/$lang/$i.align.backward2 >all_align/$lang/$i.align.grow-diag-final
 
+  done
+done
+
+for lang in deen enfr roen ende fren enro; do
+  for i in 4F9EC56BCB7FD68922D70E08FEBFA1B5 Architecture.fconv_iwslt_de_en+ClipNorm.0.1+DoTokenize.no+DoTruecase.no+MergeTest.yes+SubwordMethod.none Architecture.lstm_wiseman_iwslt_de_en+ClipNorm.0.1+DoTokenize.no+DoTruecase.no+MergeTest.yes+SubwordMethod.none; do
+    python combine.py all_align/$lang/$i.align.forward all_align/$lang/$i.align.backward > all_align/$lang/$i.align.ding
   done
 done
