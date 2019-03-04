@@ -20,53 +20,52 @@ for fline in fw:
 
   hyp_ali = eval(bline)
 #  print (hyp_ali)
+#  print (len(hyp_ali), len(hyp_ali[0]))
 
-  ali = eval(bline) # make a copy
-#  print (len(ali), len(ali[0]))
-  for i in range(0, len(ali)):
-    for j in range(0, len(ali[i])):
-      ali[i][j] = 0.00000001
+  ali = {}
 
   m_src = {}
   m_tgt = {}
+
   for pairs in fpairs:
     pairs = pairs.replace("p", "-")
         
     a, b = pairs.split('-')
     a = int(a) - 1
     b = int(b) - 1
+    a = str(a)
+    b = str(b)
 
-    ali[b][a] = 1
+    # a is src-word index, b tgt-word index
 
-
-  for i in range(0, len(ali)):
-    for j in range(0, len(ali[i])):
-      m_src[j] = m_src.get(j, 0) + ali[i][j]
-      m_tgt[i] = m_tgt.get(i, 0) + ali[i][j]
-
-
-  ali[len(ali) - 1][len(ali[0]) - 1] = 1 # for EOS -EOS alignment
-  m_src[len(ali[0]) - 1] = 1
-  m_tgt[len(ali) - 1] = 1
+#    ali[b][a] = 1
+    ali[a + " " + b] = 1.0
+    m_src[a] = m_src.get(a, 0) + 1.0
+    m_tgt[b] = m_tgt.get(b, 0) + 1.0
 
 #  print (ali)
 #  print (hyp_ali)
 
   kl = 0
-  for i in range(0, len(ali)):
-    for j in range(0, len(ali[i])):
-      ali[i][j] /= m_tgt[i]
 
+  for pairs in fpairs:
+    pairs = pairs.replace("p", "-")
+        
+    a, b = pairs.split('-')
+    int_a = int(a) - 1
+    int_b = int(b) - 1
 
-  for i in range(0, len(ali)):
-    for j in range(0, len(ali[i])):
-      if ali[i][j] != 0:
-#        print (hyp_ali[i][j])
-        kl += -ali[i][j] * math.log(hyp_ali[i][j] + 0.0001)
+    a = str(int_a)
+    b = str(int_b)
+
+    # a is src-word index, b tgt-word index
+#    print(a, b)
+
+    kl += -1.0 / m_tgt[b] * math.log(hyp_ali[int_b][int_a] + 0.0001)
 
 #  print kl, len(ali[0])
   total_kl += kl
-  total_length += len(ali[0]) + 1
+  total_length += len(fpairs)
 
 print ("loss = ", total_kl / total_length)
 
