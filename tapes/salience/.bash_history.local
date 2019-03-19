@@ -1,9 +1,0 @@
-2019-03-19:16:40:08 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22232  cd salience/
-2019-03-19:16:40:08 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22233  ls
-2019-03-19:16:40:42 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22234  cp /home/shuoyangd/projects/realign/alg_exps/run_v3_all.tape run_salience.tape
-2019-03-19:16:40:42 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22235  ls
-2019-03-19:16:41:03 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22236  cp -r /home/shuoyangd/projects/realign/alg_exps/utils .
-2019-03-19:16:41:11 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22237  ls
-2019-03-19:16:41:20 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22237  ls
-2019-03-19:16:41:37 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22238  vi run_salience.tape 
-2019-03-19:16:41:38 c11 /home/shuoyangd/projects/realign/src/tapes/salience 22239  ls
