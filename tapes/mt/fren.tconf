@@ -33,31 +33,31 @@ global {
   ##################################################################################################
 
   SRC=(TrainDataSource:
-    align_deen="de"
+    align_enfr="fr"
   )
   TRG=(TrainDataSource:
-    align_deen="en"
+    align_enfr="en"
   )
   trg_lang=en  # FIXME (only used by wrap_xml, under some rare cases)
 
   train_data=(TrainDataSource:
-    align_deen=(side:
-      src="/path/to/alignment-scripts/preprocess/train/deen.train.lc.src.bpe"
-      trg="/path/to/alignment-scripts/preprocess/train/deen.train.lc.tgt.bpe"
+    align_enfr=(side:
+      src="/path/to/alignment-scripts/preprocess/train/enfr.train.lc.tgt.bpe"
+      trg="/path/to/alignment-scripts/preprocess/train/enfr.train.lc.src.bpe"
     )
   )
 
   dev_data=(DevDataSource:
-    align_deen=(side:
-      src="/path/to/alignment-scripts/preprocess/dev/deen.dev.lc.src.bpe"
-      trg="/path/to/alignment-scripts/preprocess/dev/deen.dev.lc.tgt.bpe"
+    align_enfr=(side:
+      src="/path/to/alignment-scripts/preprocess/dev/enfr.dev.lc.tgt.bpe"
+      trg="/path/to/alignment-scripts/preprocess/dev/enfr.dev.lc.src.bpe"
     )
   )
 
   test_data=(TestDataSource:
-    align_deen=(side:
-      src="/path/to/alignment-scripts/preprocess/test/deen.lc.src.bpe"
-      trg="/path/to/alignment-scripts/preprocess/test/deen.lc.tgt.bpe"
+    align_enfr=(side:
+      src="/path/to/alignment-scripts/preprocess/test/enfr.lc.tgt.bpe"
+      trg="/path/to/alignment-scripts/preprocess/test/enfr.lc.src.bpe"
     )
   )
 
@@ -66,7 +66,7 @@ global {
   ##################################################################################################
 
   # All ducttape files will be written underneath this directory
-  ducttape_output="out_deen"
+  ducttape_output="fren_out"
 
   # TRAINING CONFIGURATIONS
   # all default is consistent with nematus
