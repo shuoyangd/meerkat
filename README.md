@@ -5,7 +5,7 @@ This repository will allow you to reproduce the results in our WMT 2019 paper [S
 As most research paper nowadays, the pipeline for the experiments described in our paper is awfully long.
 Hence, to foster easy and reliable reproduction of results, we'll be heavily relying on [ducttape](https://github.com/jhclark/ducttape).
 
-#### What is this ducttape thing?
+### What is this ducttape thing?
 
 ducttape is a Linux experimental management system created by the wonderful [Jonathan Clark](http://www.cs.cmu.edu/~jhclark/) who used to be a PhD student in NLP himself.
 It's supposed to help creating replicable and manageable pipelines for academic researchers working on Linux.
@@ -14,14 +14,14 @@ Setting up is pretty easy. You can either [download the tarball I built](http://
 If you choose to use my tarball, you'll get a jar `ducttape.jar` and an executable script `ducttape` upon untarring.
 If you are able to run the `ducttape` script, you are good to go.
 
-#### Prepare Data
+### Prepare Data
 
 Special thanks to Thomas Zenkel, Joern Wuebker and John DeNero, authors of [this paper](https://arxiv.org/abs/1901.11359). They definitely made this process much less painful than it usually is.
 
 I've made their experiment script a submodule (`alignment-scripts`).
 Just navigate into that directory and follow their instruction to preprocess the data.
 
-#### Build MT System (Optional)
+### Build MT System (Optional)
 
 Our experiments involves building several machine translation models.
 You can choose to [download the model kit]() we prepared, or build your own.
@@ -51,7 +51,7 @@ ducttape ro-en-ro.tape -C enro.tconf
 
 That's it! If things work out correctly, you should get exactly the same model as I did.
 
-#### Reproduce Numbers
+### Reproduce Numbers
 
 By now, you should have either [downloaded the model kit]() or built your system and obtained the decoder output.
 
@@ -68,7 +68,7 @@ ducttape run_salience_free.tape
 
 That's it! You should get roughly same numbers. It's not going to be exactly the same, due to the randomness involved in SmoothGrad.
 
-#### Misc
+### Misc
 
 You can find the some scripts we used for analysis and some sanity checks in `scripts/analysis`.
 They are not supposed to be clean enough to run out-of-the-box, but only to provide reference if you are interested in reproducing them as well.
@@ -78,7 +78,7 @@ They are not supposed to be clean enough to run out-of-the-box, but only to prov
 
 I used `scripts/plot/draw_tikz_alignment.py` to draw the figures in the paper.
 
-#### I'd like to understand and re-use this codebase. Where do I start?
+### I'd like to understand and re-use this codebase. Where do I start?
 
 First of all, the codebase for this paper involves lots of deeply-coupled changes on top of the [fairseq](https://github.com/pytorch/fairseq) toolkit, which is not the best way to do it (talk to me if you need to migrate this to other things you are interested in).
 
@@ -86,7 +86,7 @@ If you just want to understand the implementation for word alignment interpretat
 At a very high-level, I add a backward hook on the embedding of all input words, which ask them to log their gradient during back-propagation into a singlton object called `SaliencyManager` (defined in [`fairseq_model.py`](https://github.com/shuoyangd/fairseq/blob/ff3eaf96639fc077686aa01f889f6253f6012cd3/fairseq/models/fairseq_model.py)).
 I then retrieve the logged gradients from `SaliencyManager` to calculate the saliency score for each word.
 
-#### Citation
+### Citation
 
 ```
 @article{DBLP:journals/corr/abs-1906-10282,
@@ -108,6 +108,6 @@ I then retrieve the logged gradients from `SaliencyManager` to calculate the sal
 
 The final WMT 2019 citation is still TBD.
 
-#### Naming
+### Naming
 
 Meerkats are small canivores living in all parts of the Kalahari Desert in Botswana, in much of the Namib Desert in Namibia and southwestern Angola, and in South Africa (from [wikipedia](https://en.wikipedia.org/wiki/Meerkat)). Meerkats are very social animals, as they tend to live in clans. It is common to see clans of meerkats standing **aligned**.
