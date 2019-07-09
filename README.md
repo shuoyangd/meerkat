@@ -1,7 +1,8 @@
 # meerkat
 
-This repository will allow you to reproduce the results in our WMT 2019 paper *Saliency-driven Word Alignment Interpretation for Neural Machine Translation*.
-As most research codebase nowadays, the pipeline for the experiments described in our paper is awfully long.
+This repository will allow you to reproduce the results in our WMT 2019 paper [Saliency-driven Word Alignment Interpretation for Neural Machine Translation](https://arxiv.org/pdf/1906.10282.pdf).
+
+As most research paper nowadays, the pipeline for the experiments described in our paper is awfully long.
 Hence, to foster easy and reliable reproduction of results, we'll be heavily relying on [ducttape](https://github.com/jhclark/ducttape).
 
 #### What is this ducttape thing?
@@ -15,10 +16,10 @@ If you are able to run the `ducttape` script, you are good to go.
 
 #### Prepare Data
 
-Special thanks to the authors of [this paper](https://arxiv.org/abs/1901.11359) -- they definitely made this process much less painful than it usually is.
+Special thanks to Thomas Zenkel, Joern Wuebker and John DeNero, authors of [this paper](https://arxiv.org/abs/1901.11359). They definitely made this process much less painful than it usually is.
 
 I've made their experiment script a submodule (`alignment-scripts`).
-Just navigate into that directory and follow their instruction to preprocess the data (that's also exactly what we did).
+Just navigate into that directory and follow their instruction to preprocess the data.
 
 #### Build MT System (Optional)
 
@@ -81,9 +82,31 @@ I used `scripts/plot/draw_tikz_alignment.py` to draw the figures in the paper.
 
 First of all, the codebase for this paper involves lots of deeply-coupled changes on top of the [fairseq](https://github.com/pytorch/fairseq) toolkit, which is not the best way to do it (talk to me if you need to migrate this to other things you are interested in).
 
-If you just want to understand the implementation for word alignment interpretations, the entry point for the code is [align.py](https://github.com/shuoyangd/fairseq/blob/ff3eaf96639fc077686aa01f889f6253f6012cd3/align.py).
+If you just want to understand the implementation for word alignment interpretations, the entry point for that part of the code is [align.py](https://github.com/shuoyangd/fairseq/blob/ff3eaf96639fc077686aa01f889f6253f6012cd3/align.py).
 At a very high-level, I add a backward hook on the embedding of all input words, which ask them to log their gradient during back-propagation into a singlton object called `SaliencyManager` (defined in [`fairseq_model.py`](https://github.com/shuoyangd/fairseq/blob/ff3eaf96639fc077686aa01f889f6253f6012cd3/fairseq/models/fairseq_model.py)).
 I then retrieve the logged gradients from `SaliencyManager` to calculate the saliency score for each word.
+
+#### Citation
+
+```
+@article{DBLP:journals/corr/abs-1906-10282,
+  author    = {Shuoyang Ding and
+               Hainan Xu and
+               Philipp Koehn},
+  title     = {Saliency-driven Word Alignment Interpretation for Neural Machine Translation},
+  journal   = {CoRR},
+  volume    = {abs/1906.10282},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1906.10282},
+  archivePrefix = {arXiv},
+  eprint    = {1906.10282},
+  timestamp = {Thu, 27 Jun 2019 18:54:51 +0200},
+  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1906-10282},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```
+
+The final WMT 2019 citation is still TBD.
 
 #### Naming
 
