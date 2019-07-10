@@ -10,7 +10,7 @@ Hence, to foster easy and reliable reproduction of results, we'll be heavily rel
 ducttape is a Linux experimental management system created by the wonderful [Jonathan Clark](http://www.cs.cmu.edu/~jhclark/) who used to be a PhD student in NLP himself.
 It's supposed to help creating replicable and manageable pipelines for academic researchers working on Linux.
 
-Setting up is pretty easy. You can either [download the tarball I built](http://sding.org/downloads/ducttape.tar) or follow their [readme](https://github.com/jhclark/ducttape) to build your own.
+Setting up is pretty easy. You can either [download the tarball I built](http://cs.jhu.edu/~sding/downloads/ducttape.tar) or follow their [readme](https://github.com/jhclark/ducttape) to build your own.
 If you choose to use my tarball, you'll get a jar `ducttape.jar` and an executable script `ducttape` upon untarring.
 If you are able to run the `ducttape` script, you are good to go.
 
@@ -24,7 +24,7 @@ Just navigate into that directory and follow their instruction to preprocess the
 ### Build MT System (Optional)
 
 Our experiments involves building several machine translation models.
-You can choose to [download the model kit]() we prepared, or build your own.
+You can choose to [download the model kit](http://cs.jhu.edu/~sding/downloads/model_kit.tgz) we prepared, or build your own.
 You can skip this section if you use the model kit.
 
 If you choose to reproduce the system as well, follow the steps below:
@@ -53,7 +53,7 @@ That's it! If things work out correctly, you should get exactly the same model a
 
 ### Reproduce Numbers
 
-By now, you should have either [downloaded the model kit]() or built your system and obtained the decoder output.
+By now, you should have either [downloaded the model kit](http://cs.jhu.edu/~sding/downloads/model_kit.tgz) or built your system and obtained the decoder output.
 
 1. If you haven't yet, checkout this repo (we'll be referring the directory as `/path/to/repo` below). Navigate to `/path/to/repo/tapes/salience`. You should see two files with suffix `*.tape`, where `run_salience.tape` and `run_salience_free.tape` will allow you to reproduce Table 2 and Table 3 in the paper, respectively.
 2. Update some configurations in `*.tape` files. They are supposed to be self-explanatory.
