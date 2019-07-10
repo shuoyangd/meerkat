@@ -55,7 +55,7 @@ def main(options):
     ttoks = tline.split()
     stoks = stoks + ["▁<eos>"]
     ttoks = ttoks + ["▁<eos>"]
-    _, alg = torch.max(alg, dim=1)  # (tgt_len,)
+    _, alg = torch.max(alg[:-1, :-1], dim=1)  # (tgt_len,)
     smap, debped_stoks = debpe(stoks)
     tmap, debped_ttoks = debpe(ttoks)
 

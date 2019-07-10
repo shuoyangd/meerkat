@@ -1,10 +1,36 @@
+##################################################################################################
+
+# TODO:
+#
+# 1. update the "model" path
+# 2. update the "preprocessed" path to reflect where are the preprocessed test data are stored
+# 3. update the "binarized" path to reflect the binarized data path where model dictionary is stored (see the model kit if you did not build your own system)
+# 4. udpate the "silver_data_dir" path to reflect where decoder output is stored (see the model kit if you did not build your own system. Alternatively, you can supply your own input to do analysis with forced decoding.)
+# 5. you need to build fast-align on your own and update the path in "package fast_align"
+# 6. update "submitter" variable depending on whether you are running this on shell or a grid managed by Sun Grid Engine (SGE)
+#    you should only be concerned about the "TestMode: no" branch unless you know what you are doing
+# 7. (optional) if you use SGE, update the email address to yours for "action_flags" variable
+# 8. (optional) if you use SGE, update the "resource_flags" to match your sys admin's setup
+# 9. (optional) if you use python virtual environment, update "pyenv" to the directory where you built your environment
+#               if you use conda, update "pyenv" to "conda:YOUR_ENV_NAME"
+
+##################################################################################################
+
 import "utils/submitters.tape"
 import "utils/versioners.tape"
 
 global {
 
+# Virtual env location. This should be a file path to the virtual env you want loaded before tasks.
+# This variable supports both conda and Python's virtualenv. For conda, use "conda:ENV" as the value,
+# where "ENV" is the name of the conda environment that should be loaded. For virtualenv, supply
+# the path to the script that should be loaded.
 pyenv="/path/to/your/env"
+
+# All ducttape files will be written underneath this directory
 ducttape_output="out"
+
+# The default submitter: shell (run locally) or sge (run on a grid)
 submitter="shell"
 
 model=(LangPair:
@@ -51,7 +77,7 @@ tgt=(LangPair: deen="en" enfr="fr" roen="en" ende="de" fren="en" enro="ro")
 
 flip=(LangPair: deen="" enfr="" roen="" ende="yes" fren="yes" enro="yes")
 
-preprocessed="/home/shuoyangd/projects/realign/alignment-scripts/preprocess/test"
+preprocessed="/path/to/alignment-scripts/preprocess/test"
 # no need to use different data for different runs
 binarized=(LangPair:
   deen="/path/to/mt/system/build/deen_exps/out/binarize_data/DoTokenize.no+DoTruecase.no+MergeTest.yes+SubwordMethod.none/out"
@@ -64,9 +90,13 @@ binarized=(LangPair:
 
 }
 
-package fairseq :: .versioner=disk .path=/home/shuoyangd/projects/realign/fairseq4 { }
-package tools :: .versioner=disk .path=/home/shuoyangd/projects/realign/alignment-scripts { }
-package fast_align :: .versioner=disk .path=/home/shuoyangd/software/fast_align/build { }
+package fairseq :: .versioner=git .repo="https://github.com/shuoyangd/fairseq" .ref=saliency { }
+package fast_align :: .versioner=disk .path="/path/to/built/fast-align" { }
+package meerkat :: .versioner=git .repo="https://github.com/shuoyangd/meerkat" .ref=HEAD { }
+package tools :: .versioner=git .repo="https://github.com/lilt/alignment-scripts" .ref=HEAD {
+
+  git checkout 416f0ebc580a10dd982c83728e50dc06ee4654ae
+}
 
 task make_data
   < preprocessed=@
@@ -108,7 +138,7 @@ task align : fairseq
   :: pyenv=@
   :: .submitter=$submitter
   :: .resource_flags="-l 'hostname=b1[123456789]*|c*,mem_free=8g,ram_free=8g,gpu=1'"
-  :: .action_flags="-m ae -M dings@jhu.edu" {
+  :: .action_flags="-m ae -M YOUR_EMAIL_HERE" {
 
     sleep `od -An -N1 -i /dev/random` # avoid GPU clash
 
@@ -123,7 +153,7 @@ task align : fairseq
     fi
 }
 
-task debpe : fairseq
+task debpe : fairseq meerkat
   < in=$out@align
   < data=$out@make_data
   > out
@@ -134,12 +164,12 @@ task debpe : fairseq
   :: pyenv=@
   :: .submitter=$submitter
   :: .resource_flags="-l 'mem_free=16g,ram_free=16g'"
-  :: .action_flags="-m ae -M dings@jhu.edu" {
+  :: .action_flags="-m ae -M YOUR_EMAIL_HERE" {
 
     if [ -z $flip ] ; then
-      python $fairseq/merge_subw_align.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out
+      python $meerkat/scripts/salience/merge_subw_align.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out
     else
-      python $fairseq/merge_subw_align.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out --flip
+      python $meerkat/scripts/salience/merge_subw_align.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out --flip
     fi
 
     if [ ! -z "`ls $out.*`" ] ; then
@@ -147,7 +177,7 @@ task debpe : fairseq
     fi
 }
 
-task debpe_soft : fairseq
+task debpe_soft : fairseq meerkat
   < in=$out@align
   < data=$out@make_data
   > out
@@ -158,12 +188,12 @@ task debpe_soft : fairseq
   :: pyenv=@
   :: .submitter=$submitter
   :: .resource_flags="-l 'mem_free=16g,ram_free=16g'"
-  :: .action_flags="-m ae -M dings@jhu.edu" {
+  :: .action_flags="-m ae -M YOUR_EMAIL_HERE" {
 
     if [ -z $flip ] ; then
-      python $fairseq/merge_subw_align_soft.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out
+      python $meerkat/scripts/salience/merge_subw_align_soft.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out
     else
-      python $fairseq/merge_subw_align_soft.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out --flip
+      python $meerkat/scripts/salience/merge_subw_align_soft.py --text $data --alignment $in.$method --source-lang $src --target-lang $tgt --out $out --flip
     fi
 
     if [ ! -z "`ls $out.*`" ] ; then
@@ -178,7 +208,7 @@ task symmetrize : tools fast_align
   :: pyenv=@
   :: .submitter=$submitter
   :: .resource_flags="-l 'mem_free=16g,ram_free=16g'"
-  :: .action_flags="-m ae -M dings@jhu.edu" {
+  :: .action_flags="-m ae -M YOUR_EMAIL_HERE" {
 
     $fast_align/atools -c invert -i $bwd_in.alg > bwd_in
     $tools/scripts/combine_bidirectional_alignments.py --method grow-diagonal-final $fwd_in.alg bwd_in > $out

@@ -70,7 +70,7 @@ That's it! You should get roughly same numbers. It's not going to be exactly the
 
 ### Misc
 
-You can find the some scripts we used for analysis and some sanity checks in `scripts/analysis`.
+You can find some scripts we used for analysis and some sanity checks in `scripts/analysis`.
 They are not supposed to be clean enough to run out-of-the-box, but only to provide reference if you are interested in reproducing them as well.
 
 + reproducing all fast-align results, including online results: `scripts/analysis/run_all_align.sh`
@@ -83,7 +83,7 @@ I used `scripts/plot/draw_tikz_alignment.py` to draw the figures in the paper.
 First of all, the codebase for this paper involves lots of deeply-coupled changes on top of the [fairseq](https://github.com/pytorch/fairseq) toolkit, which is not the best way to do it (talk to me if you need to migrate this to other things you are interested in).
 
 If you just want to understand the implementation for word alignment interpretations, the entry point for that part of the code is [align.py](https://github.com/shuoyangd/fairseq/blob/ff3eaf96639fc077686aa01f889f6253f6012cd3/align.py).
-At a very high-level, I add a backward hook on the embedding of all input words, which ask them to log their gradient during back-propagation into a singlton object called `SaliencyManager` (defined in [`fairseq_model.py`](https://github.com/shuoyangd/fairseq/blob/ff3eaf96639fc077686aa01f889f6253f6012cd3/fairseq/models/fairseq_model.py)).
+At a very high-level, here is how it is done: for the embedding of each input words, I add a backward hook which asks them to log their gradient during back-propagation into a singleton object called `SaliencyManager` (defined in [`fairseq_model.py`](https://github.com/shuoyangd/fairseq/blob/ff3eaf96639fc077686aa01f889f6253f6012cd3/fairseq/models/fairseq_model.py)).
 I then retrieve the logged gradients from `SaliencyManager` to calculate the saliency score for each word.
 
 ### Citation

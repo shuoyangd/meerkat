@@ -1,4 +1,18 @@
 ##################################################################################################
+
+# TODO:
+#
+# 1. update the data path (see "train_data", "dev_data" and "test_data")
+# 2. update "submitter" variable depending on whether you are running this on shell or a grid managed by Sun Grid Engine (SGE)
+#    you should only be concerned about the "TestMode: no" branch unless you know what you are doing
+# 3. (optional) if you use SGE, update the email address to yours for "action_flags" variable
+# 4. (optional) if you use SGE, update the "resource_flags" to match your sys admin's setup
+# 5. (optional) if you use python virtual environment, update "pyenv" to the directory where you built your environment
+#               if you use conda, update "pyenv" to "conda:YOUR_ENV_NAME"
+
+##################################################################################################
+
+##################################################################################################
 # Packages used
 ##################################################################################################
 
@@ -21,7 +35,7 @@ package tools
 
 # using my fork for now, as fairseq evolves pretty fast
 package fairseq
-    :: .versioner=git .repo="https://github.com/shuoyangd/fairseq" .ref=HEAD {
+    :: .versioner=git .repo="https://github.com/shuoyangd/fairseq" .ref=saliency {
 
   python setup.py build develop
 }

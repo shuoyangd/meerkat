@@ -1,3 +1,6 @@
 [submodule "fairseq"]
 	path = fairseq
 	url = https://github.com/shuoyangd/fairseq
+[submodule "alignment-scripts"]
+	path = alignment-scripts
+	url = https://github.com/lilt/alignment-scripts/
