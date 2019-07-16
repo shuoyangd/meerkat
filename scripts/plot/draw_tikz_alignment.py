@@ -22,7 +22,7 @@ e.g: 0-0 1-1 2-4 3-2
 
 soft format: a 2-D list with alignment weights for each point
 [[0.5, 0.3, 0.2], [0.1, 0.8, 0.1], [0.02, 0.08, 0.9]]
-""")
+""", formatter_class=argparse.RawDescriptionHelpFormatter)
 opt_parser.add_argument("--src", metavar="PATH", required=True, help="")
 opt_parser.add_argument("--tgt", metavar="PATH", required=True, help="")
 opt_parser.add_argument("--alg", metavar="PATH", required=True, help="")
