@@ -89,24 +89,21 @@ I then retrieve the logged gradients from `SaliencyManager` to calculate the sal
 ### Citation
 
 ```
-@article{DBLP:journals/corr/abs-1906-10282,
-  author    = {Shuoyang Ding and
-               Hainan Xu and
-               Philipp Koehn},
-  title     = {Saliency-driven Word Alignment Interpretation for Neural Machine Translation},
-  journal   = {CoRR},
-  volume    = {abs/1906.10282},
-  year      = {2019},
-  url       = {http://arxiv.org/abs/1906.10282},
-  archivePrefix = {arXiv},
-  eprint    = {1906.10282},
-  timestamp = {Thu, 27 Jun 2019 18:54:51 +0200},
-  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1906-10282},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
+@inproceedings{ding-etal-2019-saliency,
+    title = "Saliency-driven Word Alignment Interpretation for Neural Machine Translation",
+    author = "Ding, Shuoyang  and
+      Xu, Hainan  and
+      Koehn, Philipp",
+    booktitle = "Proceedings of the Fourth Conference on Machine Translation (Volume 1: Research Papers)",
+    month = aug,
+    year = "2019",
+    address = "Florence, Italy",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/W19-5201",
+    doi = "10.18653/v1/W19-5201",
+    pages = "1--12",
 }
 ```
-
-The final WMT 2019 citation is still TBD.
 
 ### Naming
 
